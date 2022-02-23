@@ -3,6 +3,12 @@ const keyboard = document.querySelector('.keyboard-container')
 const mapDisplay = document.querySelector('.map-container')
 const messageDisplay = document.querySelector('.message-container')
 
+let remainingWords = [];
+
+possibleWordsArray.forEach(elem => {
+	remainingWords.push(elem);
+});
+
 /* 
 *		Elements of UI section
 */	
