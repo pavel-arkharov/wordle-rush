@@ -1,0 +1,83 @@
+* {
+	color: #f2f2f2;
+	font-family: Arial, Helvetica, sans-serif;
+}
+
+body {
+	background-color: #282121;
+}
+
+.game-container {
+	height: 90vh;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	align-items: center;
+}
+
+.title-container {
+	text-align: center;
+	width: 100%;
+	border-bottom: solid 1px #f2f2f2;
+}
+
+.map-container {
+	width: 30%;
+	margin: 30px;
+	align-items: center;
+	align-content: center;
+}
+
+.keyboard-container {
+	height: 40px;
+	width: 520px;
+	display: flex;
+	flex-wrap: wrap;
+	margin-bottom: 40px;
+	align-items: center;
+}
+
+.keyboard-container button {
+	width: 42px;
+	height: 46px;
+	border-radius: 12px;
+	border: none;
+	background-color: rgb(143, 141, 137);
+	margin: 4px;
+}
+
+.keyboard-container button:nth-child(11) {
+	margin-left: 36px;
+}
+
+
+.keyboard-container button:nth-child(20),
+.keyboard-container button:nth-child(28) {
+	width: 76px;
+}
+
+.map-container div {
+	display: flex;
+}
+
+.map-container .tile {
+	width: 60px;
+	height: 60px;
+	border: 1px solid #444040;
+	box-sizing: border-box;
+	display: flex;
+	margin: 2px;
+	justify-content: center;
+	align-items: center;
+}
+
+.message-container {
+	height: 30px;
+}
+
+.message-container p {
+	background-color: #ac19c2;
+	border-radius: 25px;
+	padding: 10px;
+	margin: 0;
+}
