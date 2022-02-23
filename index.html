@@ -11,10 +11,15 @@
 				<h1>Wordle Rush</h1>
 			</div>	
 			<div class="message-container"></div>
-			<div class="map-container"></div>
+			<div class ="central-view">
+				<div class="assistant-container"><button class="assistant-button" onclick="toggleAssistant()">Assitant</button></div>
+				<div class="map-container"></div>
+			</div>
 			<div class="keyboard-container"></div>
 		</div>
 	</body>
-	<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+	<script src="possible_words.js"></script>
+	<script src="allowed_words.js"></script>
 	<script src="app.js"></script>
+	<script src="assistant.js"></script>
 </html>

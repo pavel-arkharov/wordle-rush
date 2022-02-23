@@ -3,7 +3,11 @@ const keyboard = document.querySelector('.keyboard-container')
 const mapDisplay = document.querySelector('.map-container')
 const messageDisplay = document.querySelector('.message-container')
 
+/* 
+*		Elements of UI section
+*/	
 
+/*		List of keys		*/
 const keys = [
 	'Q',
     'W',
@@ -34,7 +38,7 @@ const keys = [
     'M',
     '«',
 ]
-
+/*		Array of guessed words		*/
 const wordRows = [
 	['', '', '', '', ''],
 	['', '', '', '', ''],
@@ -43,10 +47,41 @@ const wordRows = [
 	['', '', '', '', ''],
 	['', '', '', '', '']
 ]
+/*		Function that draws	keyboard UI element	*/
+keys.forEach(key => {
+	const buttonElement = document.createElement('button');
+	buttonElement.textContent = key;
+	buttonElement.setAttribute('id', key);
+	buttonElement.addEventListener('click', () => handleClick(key));
+	keyboard.append(buttonElement);
+})
+/*		Function that draws game map		*/
+wordRows.forEach((row, rowIndex) => {
+	const rowElement = document.createElement('div');
+	rowElement.setAttribute('id', 'row-' + rowIndex);
+	row.forEach((tile, tileIndex) => {
+		const tileElement = document.createElement('div');
+		tileElement.setAttribute('id', 'row-' + rowIndex + '-tile-' + tileIndex);
+		tileElement.classList.add('tile');
+		rowElement.append(tileElement);
+	})
+	mapDisplay.append(rowElement);
+})
 
+/*
+*		Variables section.
+*/
 let	currentRow = 0;
 let	currentTile = 0;
 let isGameOver = false;
+const wordle = pickedword;
+console.log(wordle);
+/*
+*		Game functions 
+*
+*/
+
+/*		Logic for handling the click according to the button pressed on keyboard		*/
 
 const handleClick = (key) => {
 	console.log('clicked', key);
@@ -64,6 +99,8 @@ const handleClick = (key) => {
 		addLetter(key);
 }
 
+/*		Set the current tile content equal to the letter pressed and increments the current tile by one		*/
+
 const	addLetter = (letter) => {
 	const tile = document.getElementById('row-' + currentRow + '-tile-' + currentTile);
 	tile.textContent = letter
@@ -71,6 +108,8 @@ const	addLetter = (letter) => {
 	tile.setAttribute('data', letter);
 	++currentTile;
 }
+
+/*		Removes content of previously set tile		*/
 
 const	deleteLetter = () => {
 	if (currentTile > 0)
@@ -83,10 +122,35 @@ const	deleteLetter = () => {
 	}
 }
 
+/*		Displays the message on the screen		*/
+
+const	showMessage = (message) => {
+	const messageElement = document.createElement('p');
+	messageElement.textContent = message;
+	messageDisplay.append(messageElement);
+	setTimeout(() => messageDisplay.removeChild(messageElement), 2000);
+}
+
+/*		If the guess contains all 5 letter then 
+*		checking the guess against the WORDL word
+*		Moves to the next row and zeroth tile if no match
+*		Ends the game if match		*/
+
+const	isAllowed = (word) => {
+	if (allowedWordsArray.includes(word)) {
+		return true;
+	} else {
+		showMessage('Word is not existing');
+		return false;
+	}
+}
+
 const	checkRow = () => {
 	const guess = wordRows[currentRow].join('');
-	if (currentTile == 5)
+	console.log('Guess is ' + guess);
+	if (currentTile == 5 && isAllowed(guess))
 	{
+		flipTile();
 		if (guess == wordle) {
 			showMessage('A great success');
 			isGameOver = true;
@@ -99,129 +163,53 @@ const	checkRow = () => {
 				currentTile = 0;
 			}
 		}
-		// console.log('Guess is ' + guess);
 	}
 }
 
-const	showMessage = (message) => {
-	const messageElement = document.createElement('p');
-	messageElement.textContent = message;
-	messageDisplay.append(messageElement);
-	setTimeout(() => messageDisplay.removeChild(messageElement), 2000);
-}
-
-keys.forEach(key => {
-	const buttonElement = document.createElement('button');
-	buttonElement.textContent = key;
-	buttonElement.setAttribute('id', key);
-	buttonElement.addEventListener('click', () => handleClick(key));
-	keyboard.append(buttonElement);
-})
-
-wordRows.forEach((row, rowIndex) => {
-	const rowElement = document.createElement('div');
-	rowElement.setAttribute('id', 'row-' + rowIndex);
-	row.forEach((tile, tileIndex) => {
-		const tileElement = document.createElement('div');
-		tileElement.setAttribute('id', 'row-' + rowIndex + '-tile-' + tileIndex);
-		tileElement.classList.add('tile');
-		rowElement.append(tileElement);
+const	flipTile = () => {
+	const	rowTiles = document.querySelector('#row-' + currentRow).childNodes;
+	/*		Copying the wordle to a variable that will be modified
+	*		in order to account for each letter only once	*/
+	let		checkWordle = wordle;
+	
+	/*		Copying our guessed word into an array of objects
+	*		assigning letter attribute to be equal to corresponding letter
+	*		and color attribute default to grey		*/
+	const	guess = [];
+	rowTiles.forEach(tile => {
+		guess.push({letter: tile.getAttribute('data'), color: 'grey-overlay'})
 	})
-	mapDisplay.append(rowElement);
-})
 
-
-
-
-// stores allowed_words.txt in array (words are defined by '\n')
-axios.get('allowed_words.txt').then(function(response) {
-	let number = Math.floor(Math.random() * 12972) - 1;
-	console.log(number);
-	//\n is counted as one char 6
-	let correct_word = JSON.stringify(response.data);
-	/*var splitting = correct_word.split("\n");
-	console.log(splitting[0]);*/
-	let tempArray = correct_word.split("\n");
-	let arr = [];
-	let i = 0;
-	while (i < (12972 - 1))
-	{
-		arr[i] = tempArray[i];
-	}
-	console.log(arr);
-});
-	//let number = Math.floor(Math.random() * 5);
-	//console.log(number);
-	//console.log(response.data);
-	//var correct_word = JSON.stringify(response.data[0]);
-	//console.log(correct_word);
-	//console.log(JSON.stringify(result.data)));
-/*let fs = require('fs')
-const readFileLines = filename =>
-	fs.readFileSync(filename)
-	.toString('UTF8')
-	.split('\n');
-
-let arr = readFileLines('allowed_words.txt');
-*/
-/*axios.get('allowed_words.txt').then(function(response) {
-	let number = Math.floor(Math.random() * 5);
-	console.log(number);
-	var correct_word = JSON.stringify(response.data[0]);
-
-console.log(correct_word);
-
-	
-})*/
-/*[Math.floor(Math.random() * 5)]
-<script src="https://requirejs.org/docs/release/2.3.5/minified/require.js"></script>
-var fs = require("fs");
-var text = fs.readFileSync("allowed_words.txt", 'utf-8');
-var textByLine = text.split("\n")
-*/
-// select random word from allowed word list for user to guess
-/*const correct_word = allowed_words[Math.floor(Math.random() * allowed_words.length)];
-
-console.log(correct_word);
-*/
-/*
-let row = 0;
-let i = 0;
-var word;
-if (keys == "ENTER")// don't know how to grab "enter" if clicked
-{
-	while (i < 5)
-	{
-		if (wordRows[0][i] == '')// break if length of rows aren't 5
-		{
-			console.log('error');
-			i = -1;
+	/*		Checking if the letter from object at index from guess array
+	*		is present in wordle copy, assigning corresponding color to it
+	*		and changing it to NULL in wordleCopy not to account for it again		*/
+	guess.forEach((guess, index) => {
+		if (guess.letter == wordle[index]) {
+			guess.color = 'green-overlay';
+			checkWordle = checkWordle.replace(guess.letter, '');
 		}
-		else
-		{
-			wordwordRows[0][i];
+	})
+
+	guess.forEach(guess => {
+		if (checkWordle.includes(guess.letter)) {
+			guess.color = 'yellow-overlay';
+			checkWordle = checkWordle.replace(guess.letter, '');
 		}
-		i++;
-	}
-	if (i == -1)
-		break;
-	// store the word the person is quessing in a string for easier compare
-	// check if solution is in allowed_words
-	
+	})
+
+	rowTiles.forEach((tile, index) => {
+		const dataLetter = tile.getAttribute('data');
+		
+		setTimeout(() => {
+			tile.classList.add('flip');
+			tile.classList.add(guess[index].color);
+			addColorToKey(guess[index].letter, guess[index].color);
+			
+		}, 500 * index)
+	})
 }
-if "enter" is pressed
-	check if word length is 5
-		if not display error message
-	check if word is in allowed_words
-	if it is in allowed words
-		increase row number
-		make a loop that first compares each letter with all the letters in the correct word
-			if the letter is matching with any of the correct words letter (regardless of position)
-				make letter yellow
-			if the letters position is the same as in the correct word
-				make letter green
-			else
-				make gray
-	if it's not in allowed words
-		display error message
-*/
+
+const	addColorToKey = (keyLetter, color) => {
+	const key = document.getElementById(keyLetter);
+	key.classList.add(color);
+}

@@ -4,7 +4,7 @@
 }
 
 body {
-	background-color: #282121;
+	background-color: #020202;
 }
 
 .game-container {
@@ -23,7 +23,7 @@ body {
 
 .map-container {
 	width: 30%;
-	margin: 30px;
+	
 	align-items: center;
 	align-content: center;
 }
@@ -40,7 +40,7 @@ body {
 .keyboard-container button {
 	width: 42px;
 	height: 46px;
-	border-radius: 12px;
+	border-radius: 18px;
 	border: none;
 	background-color: rgb(143, 141, 137);
 	margin: 4px;
@@ -56,12 +56,30 @@ body {
 	width: 76px;
 }
 
+.central-view {
+	display: inline-flex;
+	flex-direction: row;
+}
+
+.assistant-container {
+	width: 300px;
+}
+
+.assistant-button {
+	background-color: #1b8193;
+	border-radius: 35px;
+	width: 78px;
+	height: 39px;
+	margin: 3px;
+	box-sizing:content-box;
+	color:rgb(46, 32, 3);
+}
 .map-container div {
 	display: flex;
 }
 
 .map-container .tile {
-	width: 60px;
+	width: 260px;
 	height: 60px;
 	border: 1px solid #444040;
 	box-sizing: border-box;
@@ -80,4 +98,35 @@ body {
 	border-radius: 25px;
 	padding: 10px;
 	margin: 0;
+}
+
+.tile.flip {
+	animation: 0.5s linear flipping;
+}
+
+@keyframes flipping {
+	0% {
+		transform: rotateX(0deg);
+	}
+	50% {
+		transform: rotateX(90deg);
+	}
+	100% {
+		transform: rotateX(0deg);
+	}
+}
+
+.grey-overlay {
+	background-color: #353232 !important;
+	border: none !important;
+}
+
+.yellow-overlay {
+	background-color: #e6be0c !important;
+	border: none !important;
+}
+
+.green-overlay {
+	background-color: #1ec93b !important;
+	border: none !important;
 }
