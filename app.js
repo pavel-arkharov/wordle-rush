@@ -168,6 +168,7 @@ const	checkRow = () => {
 
 const	flipTile = () => {
 	const	rowTiles = document.querySelector('#row-' + currentRow).childNodes;
+	
 	/*		Copying the wordle to a variable that will be modified
 	*		in order to account for each letter only once	*/
 	let		checkWordle = wordle;
@@ -178,6 +179,7 @@ const	flipTile = () => {
 	const	guess = [];
 	rowTiles.forEach(tile => {
 		guess.push({letter: tile.getAttribute('data'), color: 'grey-overlay'})
+		console.log(tile);
 	})
 
 	/*		Checking if the letter from object at index from guess array
