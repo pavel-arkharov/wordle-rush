@@ -8,28 +8,39 @@ const	analyseGuess = () => {
 
 	//analyseRowTiles = document.querySelector('#row-' + currentRow - 1).childNodes;
 	//#row-0-tile-0.tile, div#row-0-tile-1.tile, div#row-0-tile-2.tile, div#row-0-tile-3.tile, div#row-0-tile-4.tile
-	console.log(currentRow);
-	if (currentRow == 1)
+	row = currentRow;
+	curTile = currentTile;
+	console.log(row);
+
+	if (row == 1)
 	{
 		const element = document.getElementById("row-0").childNodes;
 		console.log(element);
-		currentTile = 0;
-		let index = 0;
+		curTile = 0;
 		element.forEach(tile => {
-			tile = document.getElementById('row-0-tile-' + currentTile);
+			tile = document.getElementById('row-0-tile-' + curTile);
 			const letter = tile.getAttribute('data');
 			console.log(letter);
 			const color = tile.getAttribute('class')[13];
 			if (color == 'y')//y means the tile is gray
 			{
+				let filtered = [];
+				let i = 0;
 				// loop through array check every string if contains letter
 				remainingWords.forEach( words => {
-					var filtered = remainingWords.filter(function(letter){
-						return !remainingWords[index].includes(letter);
-					});
-					index++;
+					console.log(!words.includes(letter));
+					if (words.includes(letter))
+					{
+					
+					}
+					
+					i++;
+					/*filtered = remainingWords.filter(function(letter){
+						return !words.includes(letter);
+					});*/
 				});
-				console.log(remainingWords);
+				
+				console.log(filtered);
 			}
 			else if (color == 'l')//means it is yellow
 			{
@@ -40,32 +51,32 @@ const	analyseGuess = () => {
 
 			}
 			console.log(color);
-			currentTile++;
+			curTile++;
 		});
 	}
-	else if (currentRow == 2)
+	else if (row == 2)
 	{
 		const element = document.getElementById("row-1").childNodes;
 		console.log(element);
 	}
-	else if (currentRow == 3)
+	else if (row == 3)
 	{
 		const element = document.getElementById("row-2".childNodes);
 		console.log(element);
 	}
-	else if (currentRow == 4)
+	else if (row == 4)
 	{
 		const element = document.getElementById("row-3".childNodes);
 		console.log(element);
 	}
-	else if (currentRow == 5)
+	else if (row == 5)
 	{
 		const element = document.getElementById("row-4".childNodes);
 		console.log(element);
 	}
 	
 
-	//tile = document.getElementById('row-' + currentRow + '-tile-' + currentTile);
+	//tile = document.getElementById('row-' + currentRow + '-tile-' + curTile);
 	//const dataLetter = tile.getAttribute('data');
 	//console.log(dataLetter);
 	//const rowTiles2 = document.getElementById('row-' + currentRow - 1).childNodes;
@@ -73,7 +84,7 @@ const	analyseGuess = () => {
 	//console.log(color);
 	/*console.log(rowTiles2);
 	rowTiles2.forEach(tile => {
-		tile = document.getElementById('row-' + currentRow + '-tile-' + currentTile);
+		tile = document.getElementById('row-' + currentRow + '-tile-' + curTile);
 		const dataLetter = tile.getAttribute('data');
 		
 	})*/
