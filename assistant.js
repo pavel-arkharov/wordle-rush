@@ -25,21 +25,20 @@ const	analyseGuess = () => {
 			if (color == 'y')//y means the tile is gray
 			{
 				let filtered = [];
-				let i = 0;
 				// loop through array check every string if contains letter
 				remainingWords.forEach( words => {
-					console.log(!words.includes(letter));
-					if (words.includes(letter))
+					if (!words.includes(letter))
 					{
-					
+						filtered.push(words);
 					}
-					
-					i++;
 					/*filtered = remainingWords.filter(function(letter){
 						return !words.includes(letter);
 					});*/
 				});
-				
+				remainingWords.splice(0, remainingWords.length - 1);
+				filtered.forEach(elem => {
+					remainingWords.push(elem);
+				});
 				console.log(filtered);
 			}
 			else if (color == 'l')//means it is yellow
@@ -50,7 +49,6 @@ const	analyseGuess = () => {
 			{
 
 			}
-			console.log(color);
 			curTile++;
 		});
 	}
