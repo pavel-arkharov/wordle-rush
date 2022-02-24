@@ -10,6 +10,22 @@ function	deleteAndCopyArray( array1, array2 )
 	return array1;
 };
 
+/*		count amount of times letter is occuring in str		*/
+
+function	amountOfLetterInStr(correctLetters, letter)
+{
+	var i = 0;
+	var count = 0;
+
+	while (i < correctLetters.length)
+	{
+		if (correctLetters[i] == letter)
+			count++;
+		i++;
+	}
+	return (count);
+}
+
 /*		copies from one string to another		*/
 
 function	strcpyNoDublicates(correctLetters, presentLetters)
@@ -100,33 +116,42 @@ function	keepWordsBasedOnLetter(remainingWords, letter, curTile)
 	return remainingWords;
 }
 
-/*		count amount of times letter is occuring in str		*/
-
-function	amountOfLetterInStr(correctLetters, letter)
-{
-	var i = 0;
-	var count = 0;
-
-	while (i < correctLetters.length)
-	{
-		if (correctLetters[i] == letter)
-			count++;
-		i++;
-	}
-	return (count);
-}
-
 /*		removes words based on char count		*/
 
-function	removeWordsCharCount(remainingWords, letter)
+function	removeWordsCharCount(remainingWords, letter, count)
 {
 	let filtered = [];
 
 	remainingWords.forEach( words => {
-		if (words.includes(letter) && amountOfLetterInStr(words, letter) == 2)
+		if (words.includes(letter) && amountOfLetterInStr(words, letter) === count)
 			filtered.push(words);
 		});
 	remainingWords = deleteAndCopyArray(remainingWords, filtered);
+	return remainingWords;
+}
+
+/*		calculate which letters to remove based on color and amount of char		*/
+
+function	removeBasedOnColor(remainingWords, correctLetters, tile, curTile)
+{
+	const letter = tile.getAttribute('data');
+	const color = tile.getAttribute('class')[13];
+	if (amountOfLetterInStr(correctLetters, letter) === 2)
+		remainingWords = removeWordsCharCount(remainingWords, letter, 2);
+	if (color == 'y')
+	{
+		if (!correctLetters.includes(letter))
+			remainingWords = removeWordsBasedOnLetter(remainingWords, letter);
+		else
+		{
+			remainingWords = removeWordsCharCount(remainingWords, letter, 1);
+			remainingWords = filterCurrentPosLetters(remainingWords, letter, curTile);
+		}
+	}
+	else if (color == 'l')
+		remainingWords = filterCurrentPosLetters(remainingWords, letter, curTile);
+	else if (color == 'e')
+		remainingWords = keepWordsBasedOnLetter(remainingWords, letter, curTile);
 	return remainingWords;
 }
 
@@ -143,31 +168,17 @@ const	analyseGuess = () => {
 		const element = document.getElementById("row-" + row).childNodes;
 		element.forEach(tile => {
 			tile = document.getElementById("row-" + row + "-tile-" + curTile);
-			const letter = tile.getAttribute('data');
-			console.log(letter);
-			const color = tile.getAttribute('class')[13];
-			if (amountOfLetterInStr(correctLetters, letter) === 2)
-				remainingWords = removeWordsCharCount(remainingWords, letter);
-			if (color == 'y')
-			{
-				if (!correctLetters.includes(letter))
-					remainingWords = removeWordsBasedOnLetter(remainingWords, letter);
-				else
-					remainingWords = filterCurrentPosLetters(remainingWords, letter, curTile);
-			}
-			else if (color == 'l')
-				remainingWords = filterCurrentPosLetters(remainingWords, letter, curTile);
-			else if (color == 'e')
-				remainingWords = keepWordsBasedOnLetter(remainingWords, letter, curTile);
-			console.log(remainingWords);
+			remainingWords = removeBasedOnColor(remainingWords, correctLetters, tile, curTile);
 			curTile++;
 		});
 		curTile = 0;
 		row++;
 	}
+	return remainingWords;
 }
 
 const	toggleAssistant = () => {
 	console.log('Assistant button is pressed');
-	analyseGuess();
+	var remainingWords = analyseGuess();
+	console.log(remainingWords);
 }
