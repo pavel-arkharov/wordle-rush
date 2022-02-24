@@ -69,7 +69,6 @@ function	filterCurrentPosLetters(remainingWords, letter, curTile)
 			filtered.push(words);
 	});
 	remainingWords = deleteAndCopyArray(remainingWords, filtered);
-	console.log(remainingWords);
 	return remainingWords;
 }
 
@@ -128,7 +127,6 @@ function	removeWordsCharCount(remainingWords, letter)
 			filtered.push(words);
 		});
 	remainingWords = deleteAndCopyArray(remainingWords, filtered);
-	console.log(remainingWords);
 	return remainingWords;
 }
 
