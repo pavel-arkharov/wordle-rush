@@ -14,6 +14,8 @@ possibleWordsArray.forEach(elem => {
 
 /*		List of keys		*/
 
+const classes = ['grey-overlay', 'yellow-overlay', 'green-overlay']
+
 const keys = [
 	'Q',
     'W',
@@ -67,6 +69,25 @@ keys.forEach(key => {
 })
 
 /*		Function that draws game map		*/
+let clickCount = 0;
+const	toggleTile = (id) => {
+	const tileElement = document.getElementById(id);
+	tileElement.classList.add('flip');
+	if (clickCount === classes.length || tileElement.classList.length === 2)
+	{
+		clickCount = 0;
+	}
+	const originalClasses = Array.from(tileElement.classList);
+
+	const getClasses = () =>
+		originalClasses.filter(
+			(originalClass) => !classes.some((c) => c === originalClass)
+		);
+	const newClasses = [...getClasses(), classes[clickCount]];
+	const newClassesString = newClasses.join(" ");
+	tileElement.setAttribute("class", newClassesString);
+	++clickCount;
+} 
 
 wordRows.forEach((row, rowIndex) => {
 	const rowElement = document.createElement('div');
@@ -75,6 +96,7 @@ wordRows.forEach((row, rowIndex) => {
 		const tileElement = document.createElement('div');
 		tileElement.setAttribute('id', 'row-' + rowIndex + '-tile-' + tileIndex);
 		tileElement.classList.add('tile');
+		tileElement.onclick = function () { toggleTile(tileElement.id) }
 		rowElement.append(tileElement);
 	})
 	mapDisplay.append(rowElement);
@@ -96,12 +118,20 @@ const wordle = pickedword;
 /*		Logic for handling the click according to the button pressed on keyboard		*/
 
 const handleClick = (key) => {
+	console.log('Tile is ' + currentTile)
+	console.log('Row is ' + currentRow)
 	if (key === '«') {
 		deleteLetter();
+		if (currentTile == -1 && currentRow > 0)
+		{
+			currentRow--;
+			currentTile = 0;
+		}
 		return;
 	}
 	if (key === 'ENTER') {
-		checkRow();
+		currentTile = 0;
+		currentRow++;
 		return;
 	}
 	if (currentTile < 5 && currentRow < 6)
