@@ -80,7 +80,7 @@ wordRows.forEach((row, rowIndex) => {
 let	currentRow = 0;
 let	currentTile = 0;
 let isGameOver = false;
-const wordle = 'HELLO';//pickedword;
+const wordle = 'SLEEK'//pickedword;
 console.log(wordle);
 /*
 *		Game functions 
@@ -188,19 +188,19 @@ const	flipTile = () => {
 		console.log(tile);
 	})
 
+	guess.forEach(guess => {
+		if (checkWordle.includes(guess.letter)) {
+			guess.color = 'yellow-overlay';
+			checkWordle = checkWordle.replace(guess.letter, '');
+		}
+	})
+
 	/*		Checking if the letter from object at index from guess array
 	*		is present in wordle copy, assigning corresponding color to it
 	*		and changing it to NULL in wordleCopy not to account for it again		*/
 	guess.forEach((guess, index) => {
 		if (guess.letter == wordle[index]) {
 			guess.color = 'green-overlay';
-			checkWordle = checkWordle.replace(guess.letter, '');
-		}
-	})
-
-	guess.forEach(guess => {
-		if (checkWordle.includes(guess.letter)) {
-			guess.color = 'yellow-overlay';
 			checkWordle = checkWordle.replace(guess.letter, '');
 		}
 	})
