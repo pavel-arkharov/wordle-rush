@@ -2317,4 +2317,4 @@ zonal`
 
 let possible = possible_words.toUpperCase();
 let possibleWordsArray = possible.split(',\n');
-let pickedword = possibleWordsArray[Math.floor(Math.random() * 2315) - 1];
+let pickedword = possibleWordsArray[Math.floor(Math.random() * 2315)];

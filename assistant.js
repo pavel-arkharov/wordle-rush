@@ -179,6 +179,38 @@ const	analyseGuess = () => {
 
 const	toggleAssistant = () => {
 	console.log('Assistant button is pressed');
+	let choosen;
 	var remainingWords = analyseGuess();
 	console.log(remainingWords);
+	if (currentRow == 0)
+		choosen = 'SLATE';
+	else
+	{
+		if (remainingWords.length > 2)
+		{
+			let j = 0;
+
+			while (j < remainingWords.length)
+			{
+				let i = 0;
+				while (i < 5)
+				{
+					if (amountOfLetterInStr(remainingWords[j], remainingWords[j][i]) === 2)
+						break;
+					i++;
+				}
+				if (i == 5)
+				{
+					choosen = remainingWords[j];
+					break;
+				}
+				j++;
+			};
+		}
+		else if (remainingWords.length === 2)
+			choosen = remainingWords[Math.floor(Math.random() * remainingWords.length)];
+		else if (remainingWords.length === 1)
+			choosen = remainingWords[0];
+	}
+	console.log(choosen);
 }
