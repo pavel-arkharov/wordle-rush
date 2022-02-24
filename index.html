@@ -9,11 +9,16 @@
 		<div class="game-container">
 			<div class="title-container"> 
 				<h1>Wordle Rush</h1>
+				<a href="javascript:location.reload(true)">Restart</a>
 			</div>	
 			<div class="message-container"></div>
 			<div class ="central-view">
 				<div class="assistant-container">
-					<button class="assistant-button" onclick="toggleAssistant()">Assitant</button>
+					<div class="menu-buttons-container">
+						<button class="assistant-button" onclick="toggleAssistant()">Assitant</button>
+						<button class="autoplay-button" onClick="autoPlay()">Autoplay</button>
+					</div>
+					<div class="assistant-list"></div>
 				</div>
 				<div class="map-container"></div>
 			</div>

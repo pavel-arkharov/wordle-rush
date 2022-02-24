@@ -162,7 +162,7 @@ const	analyseGuess = () => {
 	let curTile = currentTile;
 	var correctLetters = collectCorrectLetters( row, currentRow, curTile )
 	console.log(correctLetters);
-
+	
 	while (row < currentRow)
 	{
 		const element = document.getElementById("row-" + row).childNodes;
@@ -177,11 +177,38 @@ const	analyseGuess = () => {
 	return remainingWords;
 }
 
-const	toggleAssistant = () => {
-	console.log('Assistant button is pressed');
+const	cleanAssistanceList = () => {
+	const assistantElement = document.querySelector('.assistant-list');
+	const children = assistantElement.childNodes;
+	children.forEach(child => {
+		assistantElement.removeChild(child);
+	})
+}
+
+const	showAssitanceList = (suggestions) => {
+	const assistantElement = document.querySelector('.assistant-list');
+	cleanAssistanceList();
+	console.log(suggestions)
+	if (suggestions.length <= 25)
+	{
+		suggestions.forEach(word => {
+			const suggestionElement = document.createElement('div');
+			suggestionElement.classList.add('suggestion');
+			suggestionElement.textContent = word;
+			assistantElement.append(suggestionElement);
+			})
+	} else {
+		const suggestionElement = document.createElement('div');
+			suggestionElement.classList.add('suggestion');
+			suggestionElement.textContent = 'There are many possibilities.\n Suggested word to use is: \n ' + chooseWord(suggestions);
+			assistantElement.append(suggestionElement);
+	}
+}
+
+function	chooseWord(remainingWords)
+{
 	let choosen;
-	var remainingWords = analyseGuess();
-	console.log(remainingWords);
+
 	if (currentRow == 0)
 		choosen = 'SLATE';
 	else
@@ -214,5 +241,38 @@ const	toggleAssistant = () => {
 		else
 			choosen = remainingWords[Math.floor(Math.random() * remainingWords.length)];
 	}
-	console.log(choosen);
+	return choosen;
+}
+
+const	toggleAssistant = () => {
+	console.log('Assistant button is pressed');
+	var remainingWords = analyseGuess();
+	showAssitanceList(remainingWords);
+}
+
+function	autoClick(choosenWord)
+{
+	let i = 0;
+	while (i < 5)
+	{
+		document.getElementById(choosenWord[i]).click();
+		i++;
+	}
+	document.getElementById("ENTER").click();
+}
+
+const	autoPlay = () => {
+	let choosenWord;// = chooseWord(analyseGuess());
+	//console.log(choosenWord);
+	//autoClick(choosenWord);
+	//console.log(isGameOver);
+	// choosenWord = chooseWord(analyseGuess())
+	// 	console.log(choosenWord);
+	// 	setTimeout(() => { autoClick(choosenWord); }, 2500);
+	while (isGameOver === false)
+	{
+		choosenWord = chooseWord(analyseGuess())
+		console.log(choosenWord);
+		setTimeout(() => { autoClick(choosenWord); }, 2500);
+	}
 }
