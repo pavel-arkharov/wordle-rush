@@ -208,6 +208,12 @@ const	showAssitanceList = (suggestions) => {
 	const assistantElement = document.querySelector('.assistant-list');
 	if (suggestions.length <= 25)
 	{
+		const inputButton = document.createElement('button');
+		inputButton.classList.add('assistant-button');
+		inputButton.type = 'button';
+		inputButton.textContent = 'Input word';
+		inputButton.onclick = function () { autoClick(chooseWord(suggestions)); cleanAssistanceList()};
+		assistantElement.append(inputButton);
 		suggestions.forEach(word => {
 			const suggestionElement = document.createElement('div');
 			suggestionElement.classList.add('suggestion');
@@ -229,6 +235,12 @@ const	showAssitanceList = (suggestions) => {
 			listButton.textContent = 'Show list';
 			listButton.onclick = function () { loadList(suggestions) };
 			assistantElement.append(listButton);
+			const inputButton = document.createElement('button');
+			inputButton.classList.add('assistant-button');
+			inputButton.type = 'button';
+			inputButton.textContent = 'Input word';
+			inputButton.onclick = function () { autoClick(chooseWord(suggestions)); cleanAssistanceList() };
+			assistantElement.append(inputButton);
 			
 	}
 }
