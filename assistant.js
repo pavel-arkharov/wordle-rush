@@ -186,7 +186,7 @@ const	toggleAssistant = () => {
 		choosen = 'SLATE';
 	else
 	{
-		if (remainingWords.length > 2)
+		if (remainingWords.length > 2 && currentRow < 3)
 		{
 			let j = 0;
 
@@ -207,10 +207,12 @@ const	toggleAssistant = () => {
 				j++;
 			};
 		}
-		else if (remainingWords.length === 2)
+		else if (remainingWords.length === 2 || currentRow > 2)
 			choosen = remainingWords[Math.floor(Math.random() * remainingWords.length)];
 		else if (remainingWords.length === 1)
 			choosen = remainingWords[0];
+		else
+			choosen = remainingWords[Math.floor(Math.random() * remainingWords.length)];
 	}
 	console.log(choosen);
 }
