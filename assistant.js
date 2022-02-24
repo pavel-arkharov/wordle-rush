@@ -35,6 +35,18 @@ function	strcpyNoDublicates(correctLetters, presentLetters)
 	{
 		while (index < (presentLetters.length || correctLetters.length))
 		{
+			let counter = amountOfLetterInStr(presentLetters, presentLetters[index]);
+			if (counter === 2)
+			{
+				let counterCorrectList = amountOfLetterInStr(correctLetters, presentLetters[index]);
+				if (counterCorrectList === 1)
+					correctLetters = correctLetters.concat(presentLetters[index]);
+				else if (counterCorrectList === 0)
+				{
+					correctLetters = correctLetters.concat(presentLetters[index]);
+					correctLetters = correctLetters.concat(presentLetters[index]);
+				}
+			}
 			if (!correctLetters.includes(presentLetters[index]))
 			{
 				correctLetters = correctLetters.concat(presentLetters[index]);
@@ -136,15 +148,16 @@ function	removeBasedOnColor(remainingWords, correctLetters, tile, curTile)
 {
 	const letter = tile.getAttribute('data');
 	const color = tile.getAttribute('class')[13];
-	if (amountOfLetterInStr(correctLetters, letter) === 2)
-		remainingWords = removeWordsCharCount(remainingWords, letter, 2);
+	const amountOfLetters = amountOfLetterInStr(correctLetters, letter);
+	if (amountOfLetters === 2)
+		remainingWords = removeWordsCharCount(remainingWords, letter, amountOfLetters);
 	if (color == 'y')
 	{
 		if (!correctLetters.includes(letter))
 			remainingWords = removeWordsBasedOnLetter(remainingWords, letter);
 		else
 		{
-			remainingWords = removeWordsCharCount(remainingWords, letter, 1);
+			//remainingWords = removeWordsCharCount(remainingWords, letter, 1);
 			remainingWords = filterCurrentPosLetters(remainingWords, letter, curTile);
 		}
 	}
@@ -174,21 +187,21 @@ const	analyseGuess = () => {
 		curTile = 0;
 		row++;
 	}
+	console.log(remainingWords);
 	return remainingWords;
 }
 
 const	cleanAssistanceList = () => {
 	const assistantElement = document.querySelector('.assistant-list');
-	const children = assistantElement.childNodes;
-	children.forEach(child => {
-		assistantElement.removeChild(child);
-	})
+	while (assistantElement.hasChildNodes()) {
+		assistantElement.removeChild(assistantElement.firstChild);
+	  }
 }
 
 const	showAssitanceList = (suggestions) => {
-	const assistantElement = document.querySelector('.assistant-list');
 	cleanAssistanceList();
-	console.log(suggestions)
+	const assistantElement = document.querySelector('.assistant-list');
+	console.log(suggestions);
 	if (suggestions.length <= 25)
 	{
 		suggestions.forEach(word => {
@@ -198,9 +211,13 @@ const	showAssitanceList = (suggestions) => {
 			assistantElement.append(suggestionElement);
 			})
 	} else {
-		const suggestionElement = document.createElement('div');
-			suggestionElement.classList.add('suggestion');
-			suggestionElement.textContent = 'There are many possibilities.\n Suggested word to use is: \n ' + chooseWord(suggestions);
+		let suggestionElement = document.createElement('div');
+			suggestionElement.classList.add('suggestion-solo');
+			suggestionElement.textContent = 'There are many possibilities.\n Suggested word to use is: \n ';
+			assistantElement.append(suggestionElement);
+			suggestionElement = document.createElement('div');
+			suggestionElement.classList.add('suggestion-solo');
+			suggestionElement.textContent = chooseWord(suggestions);
 			assistantElement.append(suggestionElement);
 	}
 }
@@ -250,8 +267,7 @@ const	toggleAssistant = () => {
 	showAssitanceList(remainingWords);
 }
 
-function	autoClick(choosenWord)
-{
+function autoClick(choosenWord) {
 	let i = 0;
 	while (i < 5)
 	{
@@ -262,21 +278,11 @@ function	autoClick(choosenWord)
 }
 
 const	autoPlay = () => {
-	let choosenWord = chooseWord(analyseGuess());
-	console.log(choosenWord);
-	autoClick(choosenWord);
-	auto = true;
-	//console.log(isGameOver);
-	// choosenWord = chooseWord(analyseGuess())
-	// 	console.log(choosenWord);
-	// 	setTimeout(() => { autoClick(choosenWord); }, 2500);
-	//while (isGameOver === false)
-	//{
-	//	choosenWord = chooseWord(choosenWord);
-	//	console.log(choosenWord);
-	//	autoClick(choosenWord);
-	//	console.log(before);
-	//	wait(7000);
-	//	console.log(after);
-	//}
+	if (isGameOver == false)
+	{
+		let choosenWord = chooseWord(analyseGuess());
+		console.log(choosenWord);
+		autoClick(choosenWord);
+		setTimeout(() => { autoPlay() }, 2500);
+	}
 }

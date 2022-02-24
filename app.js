@@ -80,8 +80,7 @@ wordRows.forEach((row, rowIndex) => {
 let	currentRow = 0;
 let	currentTile = 0;
 let isGameOver = false;
-let auto = false;
-const wordle = pickedword;
+const wordle = 'GEECE'//pickedword;
 console.log(wordle);
 /*
 *		Game functions 
@@ -135,7 +134,7 @@ const	showMessage = (message) => {
 	const messageElement = document.createElement('p');
 	messageElement.textContent = message;
 	messageDisplay.append(messageElement);
-	setTimeout(() => messageDisplay.removeChild(messageElement), 2000);
+	setTimeout(() => messageDisplay.removeChild(messageElement), 5000);
 }
 
 /*		If the guess contains all 5 letter then 
@@ -168,9 +167,6 @@ const	checkRow = () => {
 			} else {
 				++currentRow;
 				currentTile = 0;
-				console.log(auto);
-				if (auto === true)
-					document.getElementsByClassName("autoplay-button").click();
 			}
 		}
 	}
