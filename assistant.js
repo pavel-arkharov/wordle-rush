@@ -35,14 +35,12 @@ function	collectCorrectLetters( row, currentRow, curTile )
 			console.log(letter);
 			const color = tile.getAttribute('class')[13];
 			if (color == 'l' || color == 'e')
-			{
-
 				presentLetters = presentLetters.concat(letter);
-				console.log(presentLetters);
-			}
 			curTile++;
 		});
+		console.log(correctLetters);
 		sortAlphabetical(presentLetters);
+		console.log(correctLetters);
 		let index = 0;
 		if (correctLetters.length > 0)
 		{
@@ -59,11 +57,39 @@ function	collectCorrectLetters( row, currentRow, curTile )
 			}
 		}
 		else
-			correctLetters = presentLetters;
+			correctLetters = presentLetters.slice();
 		curTile = 0;
 		row++;
+		console.log(correctLetters);
 	}
 	return (correctLetters);
+}
+
+function	amountOfCharInString(correctLetters, letter)
+{
+	var i = 0;
+	var count = 0;
+
+	while (i < correctLetters.length)
+	{
+		if (correctLetters[i] === letter)
+			count++;
+		i++;
+	}
+	return count;
+}
+
+function	filterCurrentPosLetters(remainingWords, letter, curTile)
+{
+	let filtered = [];
+	// loop through array check every string if contains letter
+	remainingWords.forEach( words => {
+		if (words.includes(letter) && words[curTile] != letter)
+			filtered.push(words);
+	});
+	remainingWords = deleteAndCopyArray(remainingWords, filtered);
+	console.log(remainingWords);
+	return remainingWords;
 }
 
 const	analyseGuess = () => {
@@ -86,48 +112,24 @@ const	analyseGuess = () => {
 					let filtered = [];
 					// loop through array check every string if contains letter
 					remainingWords.forEach( words => {
-						if (!words.includes(letter))//&& !prevLetters.includes(letter))
+						if (!words.includes(letter))
 							filtered.push(words);
 					});
 					remainingWords = deleteAndCopyArray(remainingWords, filtered);
-					console.log(remainingWords);
 				}
 				else
 				{
-					var i = 0;
-					var count = 0;
-					while (i < correctLetters.length)
-					{
-						if (correctLetters[i] === letter)
-							count++;
-						i++;
-					}
+					var count = amountOfCharInString(correctLetters, letter)
+					// if one gray letter and one green letter or yellow. know that there are only one letter in total and should delete all words containing more than one of these letters
 					if (count == 1)
 					{
-						let filtered = [];
-						// loop through array check every string if contains letter
-						remainingWords.forEach( words => {
-							if (words.includes(letter) && words[curTile] != letter)
-								filtered.push(words);
-						});
-						remainingWords = deleteAndCopyArray(remainingWords, filtered);
-						console.log(remainingWords);
+						remainingWords = filterCurrentPosLetters(remainingWords, letter, curTile);
 					}
 				}
-			}
-			else if (color == 'l')//means it is yellow
-			{
-				//correctLetters = correctLetters.concat(letter);
-				//console.log(correctLetters);
-				let filtered = [];
-				// loop through array check every string if contains letter
-				remainingWords.forEach( words => {
-					if (words.includes(letter) && words[curTile] != letter)
-						filtered.push(words);
-				});
-				remainingWords = deleteAndCopyArray(remainingWords, filtered);
 				console.log(remainingWords);
 			}
+			else if (color == 'l')//means it is yellow
+				remainingWords = filterCurrentPosLetters(remainingWords, letter, curTile);
 			else if (color == 'e')//means it is greeen
 			{
 				//correctLetters = correctLetters.concat(letter);

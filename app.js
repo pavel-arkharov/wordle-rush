@@ -80,7 +80,7 @@ wordRows.forEach((row, rowIndex) => {
 let	currentRow = 0;
 let	currentTile = 0;
 let isGameOver = false;
-const wordle = 'STARE';//pickedword;
+const wordle = 'HELLO';//pickedword;
 console.log(wordle);
 /*
 *		Game functions 
