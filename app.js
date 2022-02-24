@@ -80,6 +80,7 @@ wordRows.forEach((row, rowIndex) => {
 let	currentRow = 0;
 let	currentTile = 0;
 let isGameOver = false;
+let auto = false;
 const wordle = pickedword;
 console.log(wordle);
 /*
@@ -167,6 +168,9 @@ const	checkRow = () => {
 			} else {
 				++currentRow;
 				currentTile = 0;
+				console.log(auto);
+				if (auto === true)
+					document.getElementsByClassName("autoplay-button").click();
 			}
 		}
 	}

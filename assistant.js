@@ -262,17 +262,21 @@ function	autoClick(choosenWord)
 }
 
 const	autoPlay = () => {
-	let choosenWord;// = chooseWord(analyseGuess());
-	//console.log(choosenWord);
-	//autoClick(choosenWord);
+	let choosenWord = chooseWord(analyseGuess());
+	console.log(choosenWord);
+	autoClick(choosenWord);
+	auto = true;
 	//console.log(isGameOver);
 	// choosenWord = chooseWord(analyseGuess())
 	// 	console.log(choosenWord);
 	// 	setTimeout(() => { autoClick(choosenWord); }, 2500);
-	while (isGameOver === false)
-	{
-		choosenWord = chooseWord(analyseGuess())
-		console.log(choosenWord);
-		setTimeout(() => { autoClick(choosenWord); }, 2500);
-	}
+	//while (isGameOver === false)
+	//{
+	//	choosenWord = chooseWord(choosenWord);
+	//	console.log(choosenWord);
+	//	autoClick(choosenWord);
+	//	console.log(before);
+	//	wait(7000);
+	//	console.log(after);
+	//}
 }
